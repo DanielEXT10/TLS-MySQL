@@ -1,7 +1,7 @@
 {
   "name": "TLS",
   "version": "1.0.0",
-  "description": "",
+  "description": "The Torque Logging System is an user interface created for monitoring torque applied to drilling tool's connections during the assembly/disassembly process.\r Developed using web technologies, TLS takes data from a high hydraulic pressure machine called torque machine.   \r ![alt text](https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcRk3fUnY27y2raofGuUqRdxf1xdwx2f1LRTWFCEomeTCAKzfyue)",
   "main": "index.js",
   "scripts": {
     "start": "node src/app.js",
@@ -13,11 +13,22 @@
   "dependencies": {
     "ejs": "^2.7.4",
     "express": "^4.17.1",
+    "express-myconnection": "^1.0.4",
     "jquery": "^3.4.1",
     "mongoose": "^5.7.12",
     "morgan": "^1.9.1",
+    "mysql": "^2.18.1",
     "nodemon": "^1.19.4",
     "serialport": "^7.1.5",
     "socket.io": "^2.3.0"
+  },
+  "devDependencies": {},
+  "bugs": {
+    "url": "https://github.com/DanielEXT10/TLS/issues"
+  },
+  "homepage": "https://github.com/DanielEXT10/TLS#readme",
+  "repository": {
+    "type": "git",
+    "url": "//github.com/DanielEXT10/TLS-MySQL.git"
   }
 }

@@ -2,11 +2,13 @@ const http= require('http');
 const express = require('express');
 const path =require('path');
 const morgan =require ('morgan');
-const app = express();
-const mongoose = require('mongoose');
+const mysql = require('mysql');
+const myConnection = require('express-myconnection');
 const SerialPort = require('serialport');
 const ReadLine = SerialPort.parsers.Readline;
 const socketIO = require('socket.io');
+
+const app = express();
 
 const server = http.createServer(app);
 //implementacion de socketIO
@@ -37,9 +39,7 @@ port.on('error',function(){
 });
 
 //connecting database
-mongoose.connect('mongodb://localhost/torque_machine')
-.then(db => console.log('db connected'))
-.catch(err => console.log (err));
+
 
 //importing routes
 const indexRoutes = require('./routes/index');
@@ -52,11 +52,22 @@ app.set('view engine', 'ejs');
 
 //middlewares
 app.use(morgan('dev'));
+
+
 app.use(express.urlencoded({extended: false}));//form to JSON object
 app.use(express.json({ limit: '1mb'}));
-
+    //connecting to database
+    app.use(myConnection(mysql, {
+        host: 'localhost',
+        user: 'root',
+        password: '961Ap101*1',
+        port: 3306,
+        database: 'tls'
+    }, 'single'));
 
 app.use('/public',express.static(__dirname + '/public'));
+
+
 
 
 
