@@ -62,7 +62,8 @@ app.use(express.json({ limit: '1mb'}));
         user: 'root',
         password: '961Ap101*1',
         port: 3306,
-        database: 'tls'
+        database: 'tls',
+        multipleStatements: true
     }, 'single'));
 
 app.use('/public',express.static(__dirname + '/public'));

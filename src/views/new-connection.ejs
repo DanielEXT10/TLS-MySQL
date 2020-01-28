@@ -22,7 +22,7 @@
                 
 
             <div class="card-body">
-                <form action="/add_connection/<%=data._id%>" method="POST" style="margin: 2rem; margin-bottom: 1rem;">
+                <form action="/add_connection/<%=data.id_tool%>" method="POST" style="margin: 2rem; margin-bottom: 1rem;">
                     <h4 style="text-align: center;">New Connection Data</h4>
                     <div class="form-group">
                         <label for="">Description:</label>
@@ -67,7 +67,7 @@
         </div>
 
         <div class="col-md-6" style="display: flex; flex-direction: column; align-content: center;margin-top: 2rem;" >
-                <a href="/view-connections/<%=data._id%>" class="btn btn-primary" style="padding: 2rem;  margin:0.5rem; font-size: 2rem;"> View Connections</a>
+                <a href="/view-connections/<%=data.id_tool%>" class="btn btn-primary" style="padding: 2rem;  margin:0.5rem; font-size: 2rem;"> View Connections</a>
             
             
             

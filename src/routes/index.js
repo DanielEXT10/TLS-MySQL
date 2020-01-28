@@ -24,21 +24,29 @@ router.post('/add', (req, res) =>{
   
 
 
-router.post('/add_connection/:id',async (req,res)=>{
+router.post('/add_connection/', (req,res)=>{
     const {id} = req.params;
-    const tool = await Tool.findById(id);
-    await Tool.updateOne({_id:id},{$push: {connections:{"description":req.body.description, "connection_number":req.body.connection_number, "thread_type": req.body.thread_type, "operation": req.body.operation, "target_torque":req.body.target_torque}}});
-    res.render('new-connection',{
-        tool
-    });
-   console.log(tool.connections);
+    const connection_data= req.body;
+    req.getConnection((err,conn)=>{
+        conn.query('INSERT INTO tool_connection set ?', [connection_data], (err,connection)=>{
+            if(err){
+                res.json(err);
+            }
+            res.send('connection saved');
+        })
+    })
 
 });
 
-router.post('/update/:id', async (req, res) => {
+router.post('/update/:id',  (req, res) => {
     const { id } = req.params;
-    await Tool.update( {_id : id}, req.body);
-    res.redirect('/review');
+    const newDataTool = req.body;
+    console.log(newDataTool);
+    req.getConnection((err,conn)=>{
+        conn.query('UPDATE tool set ? WHERE id_tool = ?',[newDataTool,id],(err,rows)=>{
+            res.redirect('/review/');
+        })
+    })
 });
 
 router.get('/', (req,res) => {
@@ -78,15 +86,18 @@ router.get('/print/:id', async (req,res)=>{
         tool
     });
 });
-router.get('/delete/:id', async (req,res)=>{
+router.get('/delete/:id',  (req,res)=>{
     const {id} = req.params;
-    await Tool.remove({_id: id});
-    res.redirect('/review');
+    req.getConnection((err,conn)=>{
+        conn.query('DELETE FROM tool WHERE id_tool = ?',[id],(err,rows)=>{
+            res.redirect('/review/');
+        })
+    })
 });
 
 router.get('/edit/:id',  (req,res) =>{
     const {id}  = req.params;
-      req.getConnection((err,conn)=>{
+      req.getConnection((err,conn)=> {
          conn.query('SELECT * FROM tool WHERE id_tool = ?',[id], (err,tools)=>{
             if(err){
                 res.json(err)
