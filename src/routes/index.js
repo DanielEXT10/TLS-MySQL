@@ -4,15 +4,25 @@ const router = express.Router();
 
 
 
-router.post('/add', async (req,res)=>{
-    const tool = new Tool(req.body);
-    await tool.save();
-    console.log(tool);
-    res.render('new-connection', {
-        tool
-    });
-  
+router.post('/add', (req, res) =>{
+    const info = req.body;
+    req.getConnection((err,connection)=>{
+        const query = connection.query('INSERT INTO tool set ?', info, (err,tool) => {
+            if(err){
+                res.json(err);
+            }
+            console.log(info);
+            res.render('new-connection',{
+                data:info
+            });
+        })
+    })
 });
+  
+    
+    
+  
+
 
 router.post('/add_connection/:id',async (req,res)=>{
     const {id} = req.params;
@@ -47,9 +57,16 @@ router.get('/new-job/', (req,res)=>{
     res.render('new-job');
 });
 router.get('/review', async(req,res)=>{
-    const tools = await Tool.find();
-    res.render('review-job',{
-        tools
+    req.getConnection((err, conn)=>{
+        conn.query('SELECT * FROM tool', (err, tools) => {
+            if (err){
+                res.json(err);
+            }
+            
+            res.render('review-job',{
+                tools
+            });
+        });
     });
 });
 
@@ -67,12 +84,19 @@ router.get('/delete/:id', async (req,res)=>{
     res.redirect('/review');
 });
 
-router.get('/edit/:id', async (req,res) =>{
-    const { id}  = req.params;
-    const tool = await Tool.findById(id);
-    res.render('edit-job',{
-        tool
-    });
+router.get('/edit/:id',  (req,res) =>{
+    const {id}  = req.params;
+      req.getConnection((err,conn)=>{
+         conn.query('SELECT * FROM tool WHERE id_tool = ?',[id], (err,tools)=>{
+            if(err){
+                res.json(err)
+            }
+             res.render('edit-job',{
+                 tool: tools[0]
+             });
+            
+         }) 
+      })
 });
 
 router.get('/view-connections/:id', async (req,res)=>{

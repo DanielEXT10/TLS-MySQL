@@ -1,13 +1,14 @@
 <% include partials/header%>
 <div class="container" style="margin-top: 2rem;  ">
+    
         
     <div  >
             <div class="card">
             <div class="card-body" style="display: flex; flex-flow: wrap; justify-content: space-between">
-            <h6>Customer: <%=tool.customer%></h6> <br>
-            <h6>Tool Type: <%=tool.tool_type%></h6><br>
-            <h6>FC: <%=tool.file_code%></h6><br>
-            <h6>Serial: <%=tool.tool_serial%></h6><br>
+            <h6>Customer: <%=data.customer%></h6> <br>
+            <h6>Tool Type: <%=data.tool_type%></h6><br>
+            <h6>FC: <%=data.file_code%></h6><br>
+            <h6>Serial: <%=data.tool_serial%></h6><br>
         </div>
         </div>
 
@@ -21,7 +22,7 @@
                 
 
             <div class="card-body">
-                <form action="/add_connection/<%=tool._id%>" method="POST" style="margin: 2rem; margin-bottom: 1rem;">
+                <form action="/add_connection/<%=data._id%>" method="POST" style="margin: 2rem; margin-bottom: 1rem;">
                     <h4 style="text-align: center;">New Connection Data</h4>
                     <div class="form-group">
                         <label for="">Description:</label>
@@ -66,7 +67,7 @@
         </div>
 
         <div class="col-md-6" style="display: flex; flex-direction: column; align-content: center;margin-top: 2rem;" >
-                <a href="/view-connections/<%=tool._id%>" class="btn btn-primary" style="padding: 2rem;  margin:0.5rem; font-size: 2rem;"> View Connections</a>
+                <a href="/view-connections/<%=data._id%>" class="btn btn-primary" style="padding: 2rem;  margin:0.5rem; font-size: 2rem;"> View Connections</a>
             
             
             
