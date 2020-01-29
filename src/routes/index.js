@@ -30,12 +30,14 @@ router.post('/add_connection/:id', (req, res) => {
     const { id } = req.params;
     const connection_data = req.body;
     req.getConnection((err, conn) => {
-        conn.query('INSERT INTO tool_connection set ?; UPDATE tool_connection SET tool_id = ? WHERE connection_id = LAST_INSERT_ID()', [connection_data, id], (err, connection) => {
+        conn.query('INSERT INTO tool_connection set ?; UPDATE tool_connection SET tool_id = ? WHERE connection_id = LAST_INSERT_ID(); SELECT * FROM tool WHERE id_tool = ?', [connection_data, id, id], (err, connection) => {
             if (err) {
                 res.json(err);
             }
 
-            res.render('new-connection');
+            res.render('new-connection',{
+                data: connection[2]
+            });
         })
     })
 
@@ -121,7 +123,7 @@ router.get('/view-connections/:id', async (req, res) => {
                 res.json(err);
             }
             res.render('job-connections', {
-                connections
+                connections,id
             })
         })
     })
@@ -172,12 +174,18 @@ router.get('/delete-connection/:id', async (req, res) => {
 
 });
 
-router.get('/add_connection/:id', async (req, res) => {
+router.get('/add_connection/:id', (req, res) => {
     const { id } = req.params;
-    const tool = await Tool.findById(id);
-    res.render('new-connection', {
-        tool
-    });
+    req.getConnection((err,conn)=>{
+        conn.query('SELECT * FROM tool WHERE id_tool = ?', id,(err,tool)=>{
+            if(err){
+                res.json(err);
+            }
+            res.render('new-connection',{
+                data:tool
+            })
+        })
+    })
 
 });
 
@@ -209,6 +217,8 @@ router.post('/update_connection/:id', (req, res) => {
             }
             backURL = req.header('Referer') || '/';
             res.redirect(backURL);
+
+           
         })
     })
 
