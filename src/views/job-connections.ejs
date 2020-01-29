@@ -16,18 +16,18 @@
         </thead>
 
         <tbody>
-            <%for(var i = 0; i < tool.connections.length; i++){%>
+            <%for(var i = 0; i < connections.length; i++){%>
             <tr>
-                <td><%=tool.connections[i].description %></td>
-                <td><%=tool.connections[i].thread_type %></td>
-                <td><%=tool.connections[i].operation%></td>
-                <td><%=tool.connections[i].target_torque %></td>
-                <td><%=tool.connections[i].measured_torque%></td>
+                <td><%=connections[i].description %></td>
+                <td><%=connections[i].thread_type %></td>
+                <td><%=connections[i].operation%></td>
+                <td><%=connections[i].target_torque %></td>
+                <td><%=connections[i].measured_torque%></td>
                 
                 <td style="text-align-last: center;">
-                    <a href="/edit-connection/<%= tool.connections[i]._id%>"><i class="far fa-edit"></i></a>
-                    <a style="margin-left:20px; color: indianred;" href="/delete-connection/<%= tool.connections[i]._id%>"><i class="far fa-trash-alt"></i></a>
-                    <a style="margin-left:20px; color: black;" href="/log-connection/<%= tool.connections[i]._id%>"><i class="fas fa-wrench"></i></a>
+                    <a href="/edit-connection/<%= connections[i].connection_id%>"><i class="far fa-edit"></i></a>
+                    <a style="margin-left:20px; color: indianred;" href="/delete-connection/<%= connections[i].connection_id%>"><i class="far fa-trash-alt"></i></a>
+                    <a style="margin-left:20px; color: black;" href="/log-connection/<%= connections[i].connection_id%>"><i class="fas fa-wrench"></i></a>
 
                 </td>
 
@@ -38,7 +38,7 @@
 </div>
     <div class="col-md-6">
         <a class="btn btn-primary" href="javascript:history.back()"> Back</a>
-        <a class="btn btn-primary" href="/add_connection/<%= tool._id%>"> Add Connection</a>
+        <a class="btn btn-primary" href="/add_connection/"> Add Connection</a>
     </div>
 </div>
 
