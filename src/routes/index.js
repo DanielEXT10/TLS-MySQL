@@ -86,10 +86,19 @@ router.get('/review', async (req, res) => {
 router.get('/print/:id', async (req, res) => {
 
     const { id } = req.params;
-    const tool = await Tool.findById(id);
-    res.render('print-job', {
-        tool
-    });
+    req.getConnection((err,conn)=>{
+        conn.query('SELECT * FROM tool WHERE id_tool = ?; SELECT * FROM tool_connection WHERE tool_ID = ?',[id,id], (err,tool)=>{
+            if(err){
+                res.json(err);
+            }
+
+            res.render('print-job',{
+                tool:tool[0],
+                connections:tool[1]
+            });
+        })
+    })
+    
 });
 router.get('/delete/:id', (req, res) => {
     const { id } = req.params;
@@ -132,26 +141,40 @@ router.get('/view-connections/:id', async (req, res) => {
 
 router.get('/log-connection/:id', async (req, res) => {
     const { id } = req.params;
-    const tool = await Tool.find({ "connections._id": id }, { connections: { $elemMatch: { _id: id } } });
-    console.log(tool);
-    res.render('log-connection', {
-        tool
-    });
+    req.getConnection((err,conn)=>{
+        conn.query('SELECT * FROM tool_connection WHERE connection_id = ?', id, (err,connection)=>{
+
+            if(err){
+                res.json(err);
+            }
+
+            res.render('log-connection',{
+                connection
+            })
+        })
+    })
+    
 
 });
 
 router.post('/api', async (req, res) => {
     console.log('I got a request');
     console.log(req.body);
-    const d = req.body
-    await Tool.updateOne({ _id: d.tool_id, "connections._id": d.connection_id }, { $set: { "connections.$.measured_torque": d.max_torque, "connections.$.serviced_on": new Date(), "connections.$.connection_status": true } })
+    const d = req.body;
+
+    
+    req.getConnection((err, conn)=>{
+        conn.query('UPDATE tool_connection SET ? WHERE connection_id = ?;UPDATE tool_connection SET serviced_on = CURRENT_TIMESTAMP, connection_status = 1 WHERE connection_id = ?', [d,d.connection_id, d.connection_id], (err,row)=>{
+            if(err){
+                res.json(err);
+            }
+           res.end();
+        })
+    })
+   
 
 
-    res.json({
-        status: 'success',
-        latitude: d.max_torque,
 
-    });
 
 });
 

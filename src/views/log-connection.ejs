@@ -8,15 +8,15 @@
 
         <div class="col-md-7" style="display: flex;  justify-content: space-between; ">
             
-            <h6>Description: <%=tool[0].connections[0].description%> </h6><br>
-            <h6>Thread Type: <%=tool[0].connections[0].thread_type%> </h6><br>
+            <h6>Description: <%=connection[0].description%> </h6><br>
+            <h6>Thread Type: <%=connection[0].thread_type%> </h6><br>
 
         </div>
         <div class="col-md-5" style="display: flex;  justify-content: space-between; ">
 
 
-            <h6>Operation: <%=tool[0].connections[0].operation%> </h6><br>
-            <h6>Target Torque: <%=tool[0].connections[0].target_torque%> </h6><br>
+            <h6>Operation: <%=connection[0].operation%> </h6><br>
+            <h6>Target Torque: <%=connection[0].target_torque%> </h6><br>
 
         </div>
 
@@ -59,10 +59,9 @@
 <script type="text/javascript" charset="utf-8">
     const socket = io();
     let counter = 0;
-    let max_torque = 0;
+    let measured_torque = 0;
     let mtorque = 0;
-    let tool_id= "<%=tool[0]._id%>"
-    let connection_id= '<%=tool[0].connections[0].id%>'
+    let connection_id= '<%=connection[0].connection_id%>'
     
 
     
@@ -73,16 +72,16 @@
         mtorque = data;
 
 
-        if (mtorque > max_torque) {
-            max_torque = mtorque;
+        if (mtorque > measured_torque) {
+            measured_torque = mtorque;
         }
         else {
-            max_torque = max_torque;
+            measured_torque = measured_torque;
         }
 
         let measured = document.getElementById('measured-torque');
         let max = document.getElementById('max-torque');
-        max.innerHTML = max_torque;
+        max.innerHTML = measured_torque;
         measured.innerHTML = mtorque;
 
         myChart.data.labels.push(counter);
@@ -98,7 +97,7 @@
 
     async function updateTorque(){
         
-        const torque_data = {tool_id,connection_id, max_torque };
+        const torque_data = {connection_id, measured_torque };
         const options = {
             method: 'POST',
             body: JSON.stringify(torque_data),
