@@ -26,6 +26,7 @@ router.post('/add', (req, res) => {
 
 
 
+
 router.post('/add_connection/:id', (req, res) => {
     const { id } = req.params;
     const connection_data = req.body;
@@ -67,8 +68,16 @@ router.get('/log-screen', (req, res) => {
 });
 
 router.get('/new-job/', (req, res) => {
+    res.render('select-nj');
+});
+
+router.get('/standard/', (req,res)=>{
     res.render('new-job');
 });
+
+router.get('/ppk/', (req, res)=>{
+    res.render('ppk-new-job');
+})
 router.get('/review', async (req, res) => {
     req.getConnection((err, conn) => {
         conn.query('SELECT * FROM tool', (err, tools) => {
