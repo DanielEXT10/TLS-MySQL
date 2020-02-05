@@ -20,13 +20,6 @@ router.post('/add', (req, res) => {
     })
 });
 
-
-
-
-
-
-
-
 router.post('/add_connection/:id', (req, res) => {
     const { id } = req.params;
     const connection_data = req.body;
@@ -77,6 +70,17 @@ router.get('/standard/', (req,res)=>{
 
 router.get('/ppk/', (req, res)=>{
     res.render('ppk-new-job');
+})
+router.post('/add-ppk/', (req,res)=>{
+    const info = req.body;
+    req.getConnection((err,conn)=>{
+        conn.query('INSERT INTO jobs set ?',[info], (err, row)=>{
+            if(err){
+                res.json(err);
+            }
+            res.send('PPK Job Saved');
+        })
+    })
 })
 router.get('/review', async (req, res) => {
     req.getConnection((err, conn) => {
