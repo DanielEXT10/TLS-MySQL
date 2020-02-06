@@ -73,15 +73,21 @@ router.get('/ppk/', (req, res)=>{
 })
 router.post('/add-ppk/', (req,res)=>{
     const info = req.body;
+    var tool;
     req.getConnection((err,conn)=>{
-        conn.query('INSERT INTO jobs set ?',[info], (err, row)=>{
+        conn.query('INSERT INTO jobs set ?;SELECT jobs.*,tools.file_code  FROM jobs INNER JOIN tools ON jobs.idtool =tools.id_tool WHERE id_job = LAST_INSERT_ID()',[info], (err, row)=>{
             if(err){
                 res.json(err);
             }
-            res.send('PPK Job Saved');
+            console.log(row[1]);
+            res.render('ppk-resume',{
+                job: row[1]
+            }
+            
+            );
         })
     })
-})
+});
 router.get('/review', async (req, res) => {
     req.getConnection((err, conn) => {
         conn.query('SELECT * FROM tool', (err, tools) => {

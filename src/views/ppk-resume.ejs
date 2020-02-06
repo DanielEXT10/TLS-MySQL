@@ -1,0 +1,46 @@
+<% include partials/header%>
+
+<div class="container" style="margin-top: 2rem;  ">
+        <div class="row">
+    
+            <div class="col-md-6">
+                <div class="card">
+    
+    
+                    <form action="/update/ >" method="POST" style="margin: 2rem; margin-bottom: 1rem;">
+                        <h2 style="text-align: center;">Job Data</h2>
+                        <div class="form-group">
+                            <label for="">Customer:</label>
+                            <input type="text" name="customer" class="form-control" value="<%=job[0].customer%>" readonly>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="">File Code:</label>
+                            <input type="text" name="file_code" class="form-control" value="<%=job[0].file_code%>" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="">Tool Serial:</label>
+                            <input type="text" name="tool_serial" class="form-control" value="<%=job[0].tool_serial%>" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="">Operator:</label>
+                            <input type="text" name="operator" class="form-control" value="<%=job[0].operator%>" readonly>
+                        </div>
+    
+    
+                        
+                        <div>
+                           
+                            
+                        </div>
+
+
+                    </form>
+                </div>
+            </div>
+            <div style="display: flex; align-items: center; flex-direction: column; justify-content: center;" class="col-md-5">
+                    <a class="btn btn-primary btn-block " href="/view-connections/<%=job.idtool %>" style="padding:20px;font-size:1.8rem; margin-left: 2rem;">View Connections</a>
+                    <a class="btn btn-primary btn-block" href="javascript:history.back()" style="padding:20px;font-size:1.8rem;  margin-left: 2rem;">Back</a>
+            </div>
+        </div>
+<% include partials/footer%>

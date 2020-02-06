@@ -1,0 +1,47 @@
+<% include partials/header%>
+<script src="https://kit.fontawesome.com/2c5fa142ad.js" crossorigin="anonymous"></script>
+<div class="container mt-5 ">
+<div class="col-md-12">
+    <table class="table table-bordered table-hover ">
+        <thead>
+            <tr>
+                <th>Description</th>
+                <th>Thread Type</th>
+
+                <th>Operation</th>
+                <th>Target torque</th>
+                <th>Measured torque</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <%for(var i = 0; i < connections.length; i++){%>
+            <tr>
+                <td><%=connections[i].description %></td>
+                <td><%=connections[i].thread_type %></td>
+                <td><%=connections[i].operation%></td>
+                <td><%=connections[i].target_torque %></td>
+                <td><%=connections[i].measured_torque%></td>
+                
+                <td style="text-align-last: center;">
+                    <a href="/edit-connection/<%= connections[i].connection_id%>"><i class="far fa-edit"></i></a>
+                    <a style="margin-left:20px; color: indianred;" href="/delete-connection/<%= connections[i].connection_id%>"><i class="far fa-trash-alt"></i></a>
+                    <a style="margin-left:20px; color: black;" href="/log-connection/<%= connections[i].connection_id%>"><i class="fas fa-wrench"></i></a>
+
+                </td>
+
+            </tr>
+            <%}%>
+        </tbody>
+    </table>
+</div>
+    <div class="col-md-6">
+        <a class="btn btn-primary" href="javascript:history.back()"> Back</a>
+        <a class="btn btn-primary" href="/add_connection/<%=id%>"> Add Connection</a>
+    </div>
+</div>
+
+
+
+<% include partials/footer%>
