@@ -1,0 +1,39 @@
+<% include partials/header%>
+
+<div class="container">
+        <script src="https://kit.fontawesome.com/2c5fa142ad.js" crossorigin="anonymous"></script>
+        <table class="table table-bordered table-hover " style="margin-top: 3rem;">
+                <thead class="thead-dark">
+                    <tr style="text-align:center ;">
+                        <th>No.</th>
+                        <th>Serial</th>
+                        <th>Customer</th>
+                        <th>Operator</th>
+                        <th>Date of creation</th>
+                        <th>Operation</th>
+                    </tr>
+                </thead>
+               <tbody class="">
+                    <% for(var i = 0; i < jobs.length; i++){ %>
+                    <tr>
+                        <td><%= i+1 %></td>
+                
+                        <td><%= jobs[i].tool_serial %></td>
+                        <td><%= jobs[i].customer %></td>
+                        <td><%= jobs[i].operator %></td>
+                        <td><%= jobs[i].creation_date %></td>
+                        
+                        
+                        <td style="text-align-last: center;">
+                            <a href="/edit/<%= jobs[i].id_job %>"><i class="far fa-edit"></i></a>
+                            <a style="margin-left:20px; color: indianred;" href="/delete-ppk/<%= jobs[i].id_job %>"><i class="far fa-trash-alt"></i></a>
+                            <a style="margin-left:20px; color: black;" href="/print/<%= jobs[i].id_job %>"><i class="fas fa-print"></i></a>
+                        </td>
+
+                    </tr> 
+                    <%}%>
+                </tbody>
+            </table>
+</div>
+
+<% include partials/footer%>
