@@ -288,8 +288,18 @@ router.get('/ppk-review/', (req,res)=>{
 router.get('/view-ppk-connections/:id',(req,res)=>{
    const {id} = req.params;
     req.getConnection((err,conn) => {
-        conn.query('SELECT connections.*, job_details.torque_measured FROM connections INNER JOIN job')
-    })
+        conn.query('SELECT * FROM connections INNER JOIN jobs ON connections.idtool = jobs.idtool WHERE jobs.id_job = ? ', id, (err,connections)=>{
+            if(err){
+                res.json(err);
+            }
+
+            res.render('job-connections',{
+              connections, id  
+            });
+        } );
+    });
+
+
 });
 
 router.get('/delete-ppk/:id', (req,res)=>{
@@ -297,6 +307,21 @@ router.get('/delete-ppk/:id', (req,res)=>{
     req.getConnection((err, conn)=>{
         conn.query('DELETE FROM jobs WHERE id_job = ?', id, (err, rows)=>{
             res.redirect('/ppk-review/');
+        });
+    });
+});
+
+router.get('/edit-ppk/:id', (req,res)=>{
+
+    const {id} = req.params;
+    req.getConnection((err,conn) =>{
+        conn.query('SELECT jobs.*, tools.file_code FROM jobs INNER JOIN tools ON jobs.idtool = tools.id_tool WHERE id_job = ?', id, (err, row)=>{
+            if(err){
+                res.json(err);
+            }
+            res.render('ppk-edit',{
+                job: row
+            })
         });
     });
 });
