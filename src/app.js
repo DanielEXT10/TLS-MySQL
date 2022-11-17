@@ -34,9 +34,9 @@ parser.on('data', function(data)  {
     io.emit('torque', data); //transmitimos la misma info que recibimos del puerto serie
 });
 
-port.on('error',function(){
-    console.log(err);
-});
+//port.on('error',function(){
+  //  console.log(error);
+//});
 
 //connecting database
 
@@ -55,12 +55,13 @@ app.use(morgan('dev'));
 
 
 app.use(express.urlencoded({extended: false}));//form to JSON object
+//
 app.use(express.json({ limit: '1mb'}));
     //connecting to database
     app.use(myConnection(mysql, {
         host: 'localhost',
         user: 'root',
-        password: '961Ap101*1',
+        password: 'password',
         port: 3306,
         database: 'tls',
         multipleStatements: true
