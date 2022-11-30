@@ -7,7 +7,7 @@ const myConnection = require('express-myconnection');
 const SerialPort = require('serialport');
 const ReadLine = SerialPort.parsers.Readline;
 const socketIO = require('socket.io');
-
+const os = require('os');
 const app = express();
 
 const server = http.createServer(app);
@@ -45,6 +45,8 @@ parser.on('data', function(data)  {
 const indexRoutes = require('./routes/index');
 
 //settings
+let plat = os.platform()
+
 app.set('port', process.env.PORT || 4000);//search available port
     //set view engine
 app.set('views', path.join(__dirname, 'views'));
